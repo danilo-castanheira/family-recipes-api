@@ -1,23 +1,26 @@
 package castanheira.danilo.familyrecipes.service;
 
 import castanheira.danilo.familyrecipes.dto.MessageResponseDTO;
+import castanheira.danilo.familyrecipes.dto.request.RecipeDTO;
 import castanheira.danilo.familyrecipes.entity.Recipe;
+import castanheira.danilo.familyrecipes.mapper.RecipeMapper;
 import castanheira.danilo.familyrecipes.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class RecipeService {
     private RecipeRepository recipeRepository;
+    private final RecipeMapper recipeMapper = RecipeMapper.INSTANCE;
 
     @Autowired
     public RecipeService(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
     }
 
-    public MessageResponseDTO createRecipe(Recipe recipe) {
-        Recipe savedRecipe = recipeRepository.save(recipe);
+    public MessageResponseDTO createRecipe(RecipeDTO recipeDTO) {
+        Recipe recipeToSave = recipeMapper.toModel(recipeDTO);
+        Recipe savedRecipe = recipeRepository.save(recipeToSave);
         return MessageResponseDTO
                 .builder()
                 .message("Created recipe with ID " + savedRecipe.getId())

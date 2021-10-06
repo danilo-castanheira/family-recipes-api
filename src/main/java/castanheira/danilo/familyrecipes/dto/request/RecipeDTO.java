@@ -1,5 +1,6 @@
-package castanheira.danilo.familyrecipes.entity;
+package castanheira.danilo.familyrecipes.dto.request;
 
+import castanheira.danilo.familyrecipes.entity.Source;
 import castanheira.danilo.familyrecipes.enums.Difficulty;
 import castanheira.danilo.familyrecipes.enums.FoodCategory;
 import lombok.AllArgsConstructor;
@@ -7,29 +8,31 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Recipe {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class RecipeDTO {
     private Long id;
 
-    @Column(nullable = false)
+    @NotEmpty
     private String name;
 
     private String description;
 
     private LocalDate registrationDate;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Source> source;
+    @Valid
+    private List<Source> sources;
 
     @Enumerated(EnumType.STRING)
     private FoodCategory category;
@@ -41,6 +44,7 @@ public class Recipe {
 
     private String makes;
 
+    @Size(min = 0, max = 99)
     private Integer cooksIn;
 
     private String wayOfDoing;
