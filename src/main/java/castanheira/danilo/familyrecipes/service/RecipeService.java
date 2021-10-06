@@ -8,6 +8,9 @@ import castanheira.danilo.familyrecipes.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class RecipeService {
     private RecipeRepository recipeRepository;
@@ -25,5 +28,13 @@ public class RecipeService {
                 .builder()
                 .message("Created recipe with ID " + savedRecipe.getId())
                 .build();
+    }
+
+    public List<RecipeDTO> listAll() {
+        List<Recipe> allRecipes = recipeRepository.findAll();
+        return allRecipes
+                .stream()
+                .map(recipeMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/recipe")
@@ -24,5 +25,10 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.CREATED)
     public MessageResponseDTO createRecipe(@RequestBody @Valid RecipeDTO recipeDTO) {
         return recipeService.createRecipe(recipeDTO);
+    }
+
+    @GetMapping
+    public List<RecipeDTO> listAll() {
+        return recipeService.listAll();
     }
 }
