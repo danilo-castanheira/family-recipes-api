@@ -26,10 +26,7 @@ public class RecipeService {
     public MessageResponseDTO createRecipe(RecipeDTO recipeDTO) {
         Recipe recipeToSave = recipeMapper.toModel(recipeDTO);
         Recipe savedRecipe = recipeRepository.save(recipeToSave);
-        return MessageResponseDTO
-                .builder()
-                .message("Created recipe with ID " + savedRecipe.getId())
-                .build();
+        return createMessageResponse(savedRecipe.getId(), "Created recipe with ID ");
     }
 
     public List<RecipeDTO> listAll() {
@@ -54,12 +51,27 @@ public class RecipeService {
     }
 
     public void deleteById(Long id) throws RecipeNotFoundException {
-        Recipe recipe = verifyIfExists(id);
+        verifyIfExists(id);
         recipeRepository.deleteById(id);
+    }
+
+    public MessageResponseDTO updateById(Long id, RecipeDTO recipeDTO) throws RecipeNotFoundException {
+        verifyIfExists(id);
+
+        Recipe recipeToUpdate = recipeMapper.toModel(recipeDTO);
+        Recipe updatedRecipe = recipeRepository.save(recipeToUpdate);
+        return createMessageResponse(updatedRecipe.getId(), "Updated recipe with ID ");
     }
 
     private Recipe verifyIfExists(Long id) throws RecipeNotFoundException {
         return recipeRepository.findById(id)
                 .orElseThrow(() -> new RecipeNotFoundException(id));
+    }
+
+    private MessageResponseDTO createMessageResponse(Long id, String message) {
+        return MessageResponseDTO
+                .builder()
+                .message(message + id)
+                .build();
     }
 }
