@@ -49,8 +49,17 @@ public class RecipeService {
         return recipeMapper.toDTO(optionalRecipe.get());
         */
 
-        Recipe recipe = recipeRepository.findById(id)
-                .orElseThrow(() -> new RecipeNotFoundException(id));
+        Recipe recipe = verifyIfExists(id);
         return recipeMapper.toDTO(recipe);
+    }
+
+    public void deleteById(Long id) throws RecipeNotFoundException {
+        Recipe recipe = verifyIfExists(id);
+        recipeRepository.deleteById(id);
+    }
+
+    private Recipe verifyIfExists(Long id) throws RecipeNotFoundException {
+        return recipeRepository.findById(id)
+                .orElseThrow(() -> new RecipeNotFoundException(id));
     }
 }

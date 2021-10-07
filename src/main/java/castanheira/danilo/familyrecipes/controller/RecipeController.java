@@ -37,4 +37,10 @@ public class RecipeController {
     public RecipeDTO findById(@PathVariable Long id) throws RecipeNotFoundException {
         return recipeService.findById(id);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) throws RecipeNotFoundException {
+        recipeService.deleteById(id);
+    }
 }
