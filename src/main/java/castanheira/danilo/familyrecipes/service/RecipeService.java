@@ -6,6 +6,7 @@ import castanheira.danilo.familyrecipes.entity.Recipe;
 import castanheira.danilo.familyrecipes.exception.RecipeNotFoundException;
 import castanheira.danilo.familyrecipes.mapper.RecipeMapper;
 import castanheira.danilo.familyrecipes.repository.RecipeRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +15,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class RecipeService {
     private RecipeRepository recipeRepository;
     private final RecipeMapper recipeMapper = RecipeMapper.INSTANCE;
 
+    /* Unnecessary if using @AllArgsConstructor
     @Autowired
     public RecipeService(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
     }
+    */
 
     public MessageResponseDTO createRecipe(RecipeDTO recipeDTO) {
         Recipe recipeToSave = recipeMapper.toModel(recipeDTO);

@@ -5,6 +5,7 @@ import castanheira.danilo.familyrecipes.dto.request.RecipeDTO;
 import castanheira.danilo.familyrecipes.entity.Recipe;
 import castanheira.danilo.familyrecipes.exception.RecipeNotFoundException;
 import castanheira.danilo.familyrecipes.service.RecipeService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +15,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/recipe")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class RecipeController {
     private RecipeService recipeService;
 
+    /* Unnecessary if using @AllArgsConstructor
     @Autowired
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
+    */
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
